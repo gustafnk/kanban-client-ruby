@@ -5,6 +5,8 @@ require "microformats2"
 require "microdata"
 require "pp"
 require "pry"
+require "nokogiri"
+require 'open-uri'
 
 describe "microformat parsing" do
   it "parses a kanban item" do
@@ -29,5 +31,28 @@ describe "microdata parsing" do
 
     item.properties["title"].first.should eq("It works here too")
     item.properties["status"].first.should eq("backlog")
+  end
+end
+
+describe "nokogiri parsing" do
+
+  before(:each) do
+    @doc = Nokogiri::HTML(open("http://localhost:3000/items")) 
+    # binding.pry
+  end
+
+  it "parses the title " do
+    @doc.at_css("h1").text.should eq("My kanban board")
+  end
+
+  it "parses a kanban item" do
+    item = @doc.at_css("[itemprop=item]")
+    item.css("[itemprop=title]").text.should eq("It works here too")
+  end
+  
+  it "has a link to the create form for a new item" do 
+    # binding.pry
+    link = @doc.css("[itemtype$=KanbanBoard] a[rel=create]").first['href']
+    link.should eq("/items/new")
   end
 end
