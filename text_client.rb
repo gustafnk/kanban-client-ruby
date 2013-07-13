@@ -1,6 +1,7 @@
 require "mechanize"
 require "pry"
 
+loop do
 agent = Mechanize.new
 page = agent.get("http://localhost:3000/items")
 
@@ -25,6 +26,14 @@ end
 
 # items[0][:forms].find {|form| form[:name] == "working"}[:form].submit
 
+items.each do |item|
+  puts "(" + item[:index].to_s + ") " + item[:title] + ", " + item[:description]
+  item[:forms].each do |form|
+    puts "  " + form[:name]
+  end
+  puts
+end
+
 puts "Enter command: "
 input = gets.chomp
 args = input.split(" ")
@@ -35,4 +44,4 @@ items[args[0].to_i][:forms].find {|form| !!form[:name].match(/\A#{args[1]}/)}[:f
 #binding.pry
 
 #pp items.first[:forms]
-
+end
