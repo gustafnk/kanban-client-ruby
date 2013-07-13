@@ -21,11 +21,18 @@ items = items_node.map.with_index do |item, index|
   }
 end
 
-pp items
+# pp items
 
-items[0][:forms].find {|form| form[:name] == "working"}[:form].submit
+# items[0][:forms].find {|form| form[:name] == "working"}[:form].submit
 
+puts "Enter command: "
+input = gets.chomp
+args = input.split(" ")
 # binding.pry
+items[args[0].to_i][:forms].find {|form| !!form[:name].match(/\A#{args[1]}/)}[:form].submit
+
+
+#binding.pry
 
 #pp items.first[:forms]
 
