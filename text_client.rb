@@ -5,7 +5,9 @@ loop do
   agent = Mechanize.new
   page = agent.get("http://localhost:3000/items")
 
-  items_node = page.search("[itemtype$=KanbanItem]")
+  categories_node = page.search(".h-column")
+  # binding.pry
+  items_node = page.search(".h-item")
   items = items_node.map.with_index do |item, index| 
     forms = item.search("form.move").map do |form| 
       {
@@ -15,8 +17,8 @@ loop do
     end
 
     {
-      :title => item.search("[itemprop=title]").text,
-      :description => item.search("[itemprop=status]").text,
+      :title => item.search(".p-title").text,
+      :description => item.search(".p-description").text,
       :index => index,
       :forms => forms 
     }
