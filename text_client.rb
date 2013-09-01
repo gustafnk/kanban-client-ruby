@@ -6,7 +6,8 @@ def parse_item (item_node, index)
   forms = item_node.search("form.move").map do |form| 
     {
       :name => form.attribute("class").value.split(" ")[1],
-      :form => Mechanize::Form.new(form, @agent, @page) 
+      :form => Mechanize::Form.new(form, @agent, @page),
+      :is_next => !!(form.get_attribute("class").match "next")
     }
   end
 
@@ -50,13 +51,17 @@ loop do
     category[:items].each do |item|
       puts "(" + item[:index].to_s + ") " + item[:title] + ", " + item[:description]
       item[:forms].each do |form|
-        puts "  " + form[:name]
+        if (form[:is_next])
+          puts " >" + form[:name]
+        else
+          puts "  " + form[:name]
+        end
       end
       puts
     end
   end
 
-  puts "Enter command: (from index to)"
+  puts "Enter command: (from index [to])"
   input = gets.chomp
   args = input.split(" ")
 
@@ -65,7 +70,11 @@ loop do
   end
 
   form = found_category[0][:items][args[1].to_i][:forms].find do |form| 
-    !!form[:name].match(/\A#{args[2]}/)
+    if !!args[2]
+      !!form[:name].match(/\A#{args[2]}/)
+    else
+      form[:is_next]
+    end
   end
 
   form[:form].submit
