@@ -64,7 +64,7 @@ loop do
 
   puts "Enter command: (from index [to])"
   input = gets.chomp
-  if !!input
+  if input.empty?
    next 
   end
 
