@@ -64,6 +64,10 @@ loop do
 
   puts "Enter command: (from index [to])"
   input = gets.chomp
+  if !!input
+   next 
+  end
+
   args = input.split(" ")
 
   found_category = categories.select do |category| 
