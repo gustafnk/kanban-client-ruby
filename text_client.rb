@@ -20,6 +20,7 @@ def parse_item (item_node, index)
 end
 
 loop do
+  system("clear") 
 
   @agent = Mechanize.new
   @page = @agent.get("http://localhost:3000/items")
