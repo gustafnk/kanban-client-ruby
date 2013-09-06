@@ -12,7 +12,7 @@ def parse_item (item_node, index)
   end
 
   {
-    :title => item_node.search(".p-title").text,
+    :title => item_node.search(".p-name").text,
     :description => item_node.search(".p-description").text,
     :index => index,
     :forms => forms 
@@ -34,7 +34,7 @@ loop do
     end
 
     { 
-      :name => category_node.search(".p-name").text,
+      :name => category_node.search("> .p-name").text,
       :items => items
     }
 
