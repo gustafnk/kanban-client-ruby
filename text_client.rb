@@ -3,11 +3,11 @@ require "pry"
 
 def parse_item (item_node, index)
 
-  forms = item_node.search("form.move").map do |form| 
+  forms = item_node.search(".p-forms form").map do |form| 
     {
-      :name => form.attribute("class").value.split(" ")[1],
+      :name => form.attribute("data-rel").value.split(" ")[1],
       :form => Mechanize::Form.new(form, @agent, @page),
-      :is_next => !!(form.get_attribute("class").match "next")
+      :is_next => !!(form.get_attribute("data-rel").match "next")
     }
   end
 
@@ -23,7 +23,7 @@ loop do
   system("clear") 
 
   @agent = Mechanize.new
-  @page = @agent.get("http://localhost:3000/items")
+  @page = @agent.get("http://localhost:3001/items")
 
   categories_node = @page.search(".h-column")
   categories = categories_node.map do |category_node|
@@ -38,11 +38,6 @@ loop do
       :items => items
     }
 
-  end
-
-  items_node = @page.search(".h-item")
-  items = items_node.map.with_index do |item, index| 
-    parse_item(item, index)
   end
 
   categories.each do |category|
