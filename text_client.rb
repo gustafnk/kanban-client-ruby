@@ -23,7 +23,8 @@ loop do
   system("clear") 
 
   @agent = Mechanize.new
-  @page = @agent.get("http://localhost:3001/items")
+  # @page = @agent.get("http://localhost:3001/items")
+  @page = @agent.get("http://kanban-api.herokuapp.com/items")
 
   categories_node = @page.search(".h-column")
   categories = categories_node.map do |category_node|
