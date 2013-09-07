@@ -19,6 +19,8 @@ def parse_item (item_node, index)
   }
 end
 
+start = Time.now
+
 loop do
   system("clear") 
 
@@ -58,6 +60,11 @@ loop do
     end
   end
 
+  finish = Time.now
+  diff = finish - start
+
+  puts
+  puts "Request took #{diff} seconds."
   puts "Enter command: (from index [to])"
   input = gets.chomp
   if input.empty?
@@ -78,5 +85,7 @@ loop do
     end
   end
 
+  start = Time.now
+  
   form[:form].submit
 end
