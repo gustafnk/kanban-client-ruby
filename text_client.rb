@@ -25,8 +25,8 @@ loop do
   system("clear") 
 
   @agent = Mechanize.new
-  # @page = @agent.get("http://localhost:3001/items")
-  @page = @agent.get("http://kanban-api.herokuapp.com/items")
+  @page = @agent.get("http://localhost:3001/items")
+  # @page = @agent.get("http://kanban-api.herokuapp.com/items")
 
   categories_node = @page.search(".h-column")
   categories = categories_node.map do |category_node|
@@ -75,7 +75,7 @@ loop do
   args = input.split(" ")
 
   found_category = categories.select do |category| 
-    category[:name].match /#{args[0]}/i 
+    category[:name].match /^#{args[0]}/i 
   end
 
   form = found_category[0][:items][args[1].to_i][:forms].find do |form| 
