@@ -29,6 +29,7 @@ loop do
   categories = categories_node.map do |category_node|
 
     item_nodes = category_node.search(".h-item")
+
     items = item_nodes.map.with_index do |item, index|
       parse_item(item, index)
     end
@@ -41,11 +42,15 @@ loop do
   end
 
   categories.each do |category|
+    # TODO Extract display_category
     puts "------------------------"
     puts category[:name]
     puts "------------------------"
+
+    # TODO Extract display_items
     category[:items].each do |item|
       puts "(" + item[:index].to_s + ") " + item[:title] + ", " + item[:description]
+
       item[:forms].each do |form|
         if (form[:is_next])
           puts " >" + form[:name]
@@ -59,6 +64,8 @@ loop do
 
   puts
   puts "Enter command: (from index [to])"
+
+  # TODO Extract get_form_from_input
   input = gets.chomp
 
   args = input.split(" ")
@@ -75,7 +82,7 @@ loop do
     end
   end
 
-  start = Time.now
-  
+  # TODO End extract get_form_from_input
+
   form[:form].submit
 end
