@@ -19,14 +19,11 @@ def parse_item (item_node, index)
   }
 end
 
-start = Time.now
-
 loop do
   system("clear") 
 
   @agent = Mechanize.new
   @page = @agent.get("http://localhost:3001/items")
-  # @page = @agent.get("http://kanban-api.herokuapp.com/items")
 
   categories_node = @page.search(".h-column")
   categories = categories_node.map do |category_node|
@@ -60,17 +57,9 @@ loop do
     end
   end
 
-  finish = Time.now
-  diff = finish - start
-
   puts
-  puts "Request took #{diff} seconds."
   puts "Enter command: (from index [to])"
   input = gets.chomp
-  if input.empty?
-    start = Time.now
-   next 
-  end
 
   args = input.split(" ")
 
